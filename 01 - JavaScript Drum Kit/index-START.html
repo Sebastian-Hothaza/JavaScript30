@@ -58,6 +58,31 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  // Listen for key down event
+  window.addEventListener('keydown', function (e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`); // selecting the audio element
+    if (!audio) return; // Escaping irrelevant
+
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`); // Used for CSS Styling
+    key.classList.add('playing');
+    
+    audio.currentTime = 0; // Reset to start so we can repeatedly play sound
+    audio.play();
+
+  });
+
+  function removeTransition(e){
+
+    if (e.propertyName !== 'transform') return; //skip if its not one we care about
+    
+    this.classList.remove('playing');
+  }
+
+  // We need to add a listener to wait for transition to end before we can remove the style
+  const keys = document.querySelectorAll('.key'); // Select all they keys
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition)); //add listener for each key, which calls remove transition
+  console.log(keys);
+
 
 </script>
 
